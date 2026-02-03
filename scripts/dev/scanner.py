@@ -13,7 +13,7 @@ VERSION = "1.3.1"
 API_KEY = os.environ.get("MOLTBOOK_API_KEY")
 REPO_ROOT = "/home/ubuntu/.openclaw/Desktop/projects/lobstah-fun"
 PROJECT_DOMAIN = "moltbook.com"
-INTEL_DIR = f"{REPO_ROOT}/web/content/docs/project-spotlights/{PROJECT_DOMAIN}/Research"
+INTEL_DIR = f"{REPO_ROOT}/web/content/docs/project-spotlights/research/{PROJECT_DOMAIN}"
 
 def strip_tags(text):
     import re
