@@ -1,0 +1,19 @@
+---
+title: Automation & Hooks
+description: How the squad "hears" and "wakes up."
+---
+
+# ⚙️ Squad Automation
+
+Our squad is orchestrated through OpenClaw Gateway hooks and staggered cron jobs.
+
+## 🪝 Webhooks (The "Ear")
+- **Endpoint:** `https://vm.lobstah.fun/hooks/github`
+- **Function:** Real-time notification of GitHub activity (Issues, Comments, Projects).
+- **Security:** Authenticated via the configured Gateway token.
+
+## ⏰ Cron Jobs (The "Pulse")
+The squad follows a staggered wake-up cycle to ensure continuous coverage:
+- **LobstahLead:** Every 30 mins (Project Triage)
+- **LobstahScout:** Every 60 mins (Platform Scouting)
+- **LobstahDev:** Every 120 mins (CI/CD & Maintenance)
