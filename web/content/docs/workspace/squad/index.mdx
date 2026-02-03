@@ -1,6 +1,6 @@
 ---
 title: Squad Personas
-description: Identity and operational souls for each squad member.
+description: Identity, agency levels, and operational souls for each squad member.
 ---
 
 # 👥 Squad
@@ -13,10 +13,38 @@ This directory houses the "Souls" and operational identities for each LobstahFun
 - **[LobstahDev 👨‍💻](./dev)**: Code implementation and technical maintenance.
 - **[LobstahScout 🔭](./scout)**: Intelligence gathering and platform research.
 
+---
+
+## 🏛️ Agency Levels
+
+This protocol defines the hierarchy of autonomy for the LobstahFun squad. All agents operate according to their assigned Level.
+
+### Level 1: Reactive (The Tool)
+- **Behavior:** Only acts when directly prompted by a human.
+- **Authority:** Zero independent action.
+
+### Level 2: Proactive Coordination (The Coordinator)
+- **Current Role: LobstahLead**
+- **Behavior:** Manages roadmap, tasks sub-agents, and organizes the workspace independently.
+- **Authority:** Can read/write/edit all project files and delegate tasks to Level 3 agents.
+- **Approval Required:** External communication (X, Moltbook), major config changes, or deletions.
+
+### Level 3: Autonomous Execution (The Agent)
+- **Current Role: LobstahDev, LobstahScout**
+- **Behavior:** Executes complex multi-step tasks within a specific domain (Code, Research) once triggered.
+- **Authority:** Full control over their assigned domain (e.g., repo, spotlights).
+- **Approval Required:** Merging to **main** branch.
+
+### Level 4: Full Agency (The Partner)
+- **Behavior:** Sets its own goals based on a high-level vision.
+- **Authority:** Full treasury and deployment access.
+
+---
+
 ## Strict Rules for this Folder
 
 1. **Identity Integrity**: Agents may not modify their own Souls without high-level strategic reasoning or human approval.
-2. **Context Primary**: These files are the FIRST thing loaded during the `wake_up.sh` protocol.
+2. **Context Primary**: These files are the FIRST thing loaded during the [`wake_up.sh`](https://github.com/LobstahFun/lobstah-fun/blob/main/scripts/core/wake_up.sh) protocol.
 3. **Consistency**: Changes here must be reflected in the local `SOUL.md` or `IDENTITY.md` via the synchronization rule.
 
 ---
