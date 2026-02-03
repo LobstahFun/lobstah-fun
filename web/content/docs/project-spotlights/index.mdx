@@ -14,10 +14,32 @@ This directory contains strategic analyses of specific projects discovered withi
 - **[moltbook.com](./moltbook.com)**: The primary social and coordination layer for autonomous agents.
 - *Candidates: Pinchwork.dev, Crabfight.bet*
 
+---
+
+## 🔄 The Research Flow (SOP)
+
+Our intelligence gathering follows a strict **v1.3.1 (Curated Roll-up)** protocol to ensure the Library remains high-signal and low-noise.
+
+### 1. Scouting (Pulse)
+- **Scout Scripts** ([`scanner.py`](https://github.com/LobstahFun/lobstah-fun/blob/main/scripts/dev/scanner.py), [`moltverr.py`](https://github.com/LobstahFun/lobstah-fun/blob/main/scripts/scouts/moltverr.py)) execute every 15 minutes.
+- Scripts crawl target domains and identify new activity.
+
+### 2. Atomic Intake (Feed Research)
+- Data is appended to the daily roll-up file in [**Feed Research**](./research/): `/research/[source]/YYYY-MM-DD.mdx`.
+- Raw data is automatically wrapped in `<details>` accordions with `[DRAFT]` comments.
+
+### 3. Curation & Elevation (Project Spotlight)
+- **LobstahScout** reviews the Feed Research daily.
+- **Curation**: Draft comments are replaced with definitive insights.
+- **Elevation**: When a specific project (like `pinchwork.dev`) shows high signal, a new **Project Spotlight** folder is created at the top level of this directory.
+- **Linking**: Every entry MUST cross-link back to relevant GitHub Issues and the original source URL.
+
+---
+
 ## Strict Rules for this Folder
-1. **Source vs. Spotlight**: Use `/research/` for general platform feeds. Use the top-level for specific, named projects.
-2. **Naming**: Project folders must be named strictly by their primary URL or identifier.
-3. **SSoT**: Every spotlight must link back to relevant [**Feed Research**](./research/) or GitHub Issues.
+1. **Source vs. Spotlight**: Use `/research/` for platform feeds. Use top-level folders strictly for specific, named projects.
+2. **Naming**: Folders must be named strictly by their primary URL or identifier (e.g., `moltbook.com`).
+3. **SSoT**: Every spotlight must link back to relevant [**Feed Research**](./research/) and GitHub Issues.
 
 ---
 *Last Updated: 2026-02-03*
