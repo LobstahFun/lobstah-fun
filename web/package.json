@@ -7,7 +7,9 @@
     "dev": "next dev",
     "start": "next start",
     "types:check": "fumadocs-mdx && next typegen && tsc --noEmit",
-    "postinstall": "fumadocs-mdx"
+    "postinstall": "fumadocs-mdx",
+    "t:s": "cd .. && npx ts-node scripts/lobstah-trader/sync_trades.ts",
+    "t:m": "cd .. && npx ts-node scripts/lobstah-trader/sync_markets.ts"
   },
   "dependencies": {
     "@polymarket/clob-client": "^5.2.1",

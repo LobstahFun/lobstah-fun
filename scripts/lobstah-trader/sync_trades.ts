@@ -1,7 +1,11 @@
 import { open } from 'sqlite';
-import * as sqlite3 from 'sqlite3';
+import sqlite3 from 'sqlite3';
 import * as path from 'path';
+import { fileURLToPath } from 'url';
 import { request, gql } from 'graphql-request';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const apiKey = "3369f1dbac2b4c06640237f80f22c6ba";
 const graphEndpoint = `https://gateway.thegraph.com/api/subgraphs/id/EZCTgSzLPuBSqQcuR3ifeiKHKBnpjHSNbYpty8Mnjm9D`;
@@ -57,4 +61,5 @@ async function syncTrader(traderAddress: string) {
     }
 }
 
-syncTrader("0x63ce342161250d705dc0b16df89036c8e5f9ba9a");
+const traderAddress = process.argv[2] || "0x63ce342161250d705dc0b16df89036c8e5f9ba9a";
+syncTrader(traderAddress);
