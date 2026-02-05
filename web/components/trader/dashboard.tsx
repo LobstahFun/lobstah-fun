@@ -3,12 +3,15 @@ import React from 'react';
 export function TraderDashboard({ data }: { data: any }) {
   if (!data) return <div>No data found.</div>;
 
-  const { stats, positions, trades, address } = data;
+  const { stats, positions, trades, address, lifetimeStats } = data;
+
+  // Use Forensic PnL if available, otherwise fallback to API estimate
+  const displayPnL = lifetimeStats ? lifetimeStats.forensicPnL : ((stats.totalActivePnL || 0) + (positions.reduce((acc: number, p: any) => acc + (p.realizedPnl || 0), 0)));
 
   return (
     <div className="not-prose space-y-8 my-8">
       {/* Header Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="p-4 rounded-xl border bg-card text-card-foreground shadow-sm">
           <div className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Total Trades</div>
           <div className="text-2xl font-bold mt-1">{stats.totalTradesFetched || stats.totalTrades || 0}</div>
@@ -21,6 +24,12 @@ export function TraderDashboard({ data }: { data: any }) {
           <div className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Active PnL</div>
           <div className={`text-2xl font-bold mt-1 ${(stats.totalActivePnL || 0) >= 0 ? 'text-green-500' : 'text-red-500'}`}>
             ${(stats.totalActivePnL || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+          </div>
+        </div>
+        <div className="p-4 rounded-xl border border-primary/20 bg-primary/5 text-card-foreground shadow-sm">
+          <div className="text-sm font-medium text-primary uppercase tracking-wider">{lifetimeStats ? 'Lifetime PnL' : 'Total PnL (Est.)'}</div>
+          <div className={`text-2xl font-bold mt-1 ${displayPnL >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+            ${displayPnL.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
           </div>
         </div>
       </div>

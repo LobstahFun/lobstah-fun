@@ -19,75 +19,96 @@ const ORDER_FILLED_ABI = parseAbiItem('event OrderFilled(bytes32 indexed orderHa
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 async function deepTrawl() {
-    console.log(`🦞 LobstahScout: FULL DEEP TRAWL (High Fidelity) initiated for ${TRADER_ADDRESS}...`);
+    console.log(`🦞 LobstahScout: INCREMENTAL TRAWL (V3.1) for ${TRADER_ADDRESS}...`);
 
     try {
-        const targetTradeCount = 15000;
-        let allTrades: any[] = [];
-        let currentBlock = await client.getBlockNumber();
-        const step = 500n; 
+        let existingTrades: any[] = [];
+        let lastBlock = 82500000n; // Start closer to modern history if no checkpoint
+
+        if (fs.existsSync(OUTPUT_FILE_TRAWL)) {
+            const content = fs.readFileSync(OUTPUT_FILE_TRAWL, 'utf-8');
+            const match = content.match(/"trades":\s*\[([\s\S]*)\]/);
+            if (match) {
+                existingTrades = JSON.parse("[" + match[1] + "]");
+                if (existingTrades.length > 0) {
+                    const maxBlock = Math.max(...existingTrades.map(t => parseInt(t.blockNumber)));
+                    lastBlock = BigInt(maxBlock);
+                    console.log(`📍 Checkpoint found: Resuming from block ${lastBlock}`);
+                }
+            }
+        }
+
+        const currentBlock = await client.getBlockNumber();
+        let allNewTrades: any[] = [];
+        let fromBlock = lastBlock + 1n;
+        const step = 1000n; 
         
-        while (allTrades.length < targetTradeCount) {
-            const fromBlock = currentBlock - step;
-            console.log(`📡 [${allTrades.length}/${targetTradeCount}] Scanning blocks ${fromBlock} to ${currentBlock}...`);
+        while (fromBlock < currentBlock) {
+            let toBlock = fromBlock + step;
+            if (toBlock > currentBlock) toBlock = currentBlock;
+
+            console.log(`📡 Scanning [${fromBlock.toString()} -> ${toBlock.toString()}]...`);
 
             try {
-                const logs = await client.getLogs({
-                    address: CTF_EXCHANGE,
-                    event: ORDER_FILLED_ABI,
-                    args: { maker: TRADER_ADDRESS as `0x${string}` },
-                    fromBlock,
-                    toBlock: currentBlock
-                });
+                // Parallel fetch for maker/taker roles
+                const [mLogs, tLogs] = await Promise.all([
+                    client.getLogs({ address: CTF_EXCHANGE, event: ORDER_FILLED_ABI, args: { maker: TRADER_ADDRESS as `0x${string}` }, fromBlock, toBlock }),
+                    client.getLogs({ address: CTF_EXCHANGE, event: ORDER_FILLED_ABI, args: { taker: TRADER_ADDRESS as `0x${string}` }, fromBlock, toBlock })
+                ]);
 
-                if (logs.length > 0) {
-                    const batch = logs.map(log => {
+                const combined = [...mLogs, ...tLogs];
+
+                if (combined.length > 0) {
+                    const batch = combined.map(log => {
+                        const isMaker = log.args.maker?.toLowerCase() === TRADER_ADDRESS.toLowerCase();
                         const mAsset = log.args.makerAssetId?.toString();
                         const tAsset = log.args.takerAssetId?.toString();
                         const mAmount = Number(log.args.makerAmountFilled);
                         const tAmount = Number(log.args.takerAmountFilled);
 
-                        const isBuy = mAsset === "0";
-                        const assetId = isBuy ? tAsset : mAsset;
-                        const price = isBuy ? (mAmount / tAmount) : (tAmount / mAmount);
-                        const size = isBuy ? (tAmount / 1e6) : (mAmount / 1e6);
+                        const isBuy = isMaker ? (mAsset === "0") : (tAsset === "0");
+                        const assetId = isMaker ? (isBuy ? tAsset : mAsset) : (isBuy ? mAsset : tAsset);
+                        const price = isMaker ? (isBuy ? mAmount/tAmount : tAmount/mAmount) : (isBuy ? tAmount/mAmount : mAmount/tAmount);
+                        const size = isMaker ? (isBuy ? tAmount : mAmount)/1e6 : (isBuy ? mAmount : tAmount)/1e6;
 
                         return {
                             proxyWallet: TRADER_ADDRESS,
                             side: isBuy ? "BUY" : "SELL", 
                             asset: assetId,
-                            size: size,
+                            size: parseFloat(size.toFixed(6)),
                             price: parseFloat(price.toFixed(4)),
                             transactionHash: log.transactionHash,
+                            logIndex: log.logIndex,
                             blockNumber: log.blockNumber?.toString()
                         };
                     });
-                    allTrades = [...allTrades, ...batch];
+                    allNewTrades = [...allNewTrades, ...batch];
                 }
 
-                currentBlock = fromBlock - 1n;
-                if (currentBlock < 55000000n) break;
-                await sleep(200); // More aggressive sleep to avoid 429
+                fromBlock = toBlock + 1n;
+                await sleep(300); // Throttled to respect Infura limits
             } catch (err: any) {
-                if (err.message?.includes('429')) {
-                    console.log("⚠️ Rate limited. Sleeping for 10s...");
-                    await sleep(10000);
-                } else {
-                    throw err;
-                }
+                console.log(`⚠️ Block range failed: ${err.message}. Retrying in 5s...`);
+                await sleep(5000);
             }
         }
 
+        const masterMap = new Map();
+        [...existingTrades, ...allNewTrades].forEach(t => {
+            const key = `${t.transactionHash}-${t.logIndex}`;
+            masterMap.set(key, t);
+        });
+
+        const merged = Array.from(masterMap.values()).sort((a, b) => parseInt(a.blockNumber) - parseInt(b.blockNumber));
+
         const fileContent = `export const trawlData = {
     address: "${TRADER_ADDRESS}",
-    recoveredCount: ${allTrades.length},
-    trades: ${JSON.stringify(allTrades, null, 4)}
+    lastUpdated: "${new Date().toISOString()}",
+    trades: ${JSON.stringify(merged, null, 4)}
 };`;
 
-        if (!fs.existsSync(OUTPUT_DIR)) fs.mkdirSync(OUTPUT_DIR, { recursive: true });
         fs.writeFileSync(OUTPUT_FILE_TRAWL, fileContent);
-
-        console.log(`✅ Deep Trawl Complete! ${allTrades.length} High-Fidelity trades archived.`);
+        console.log(`✅ Success! Archive size: ${merged.length} unique trades.`);
 
     } catch (error) {
         console.error("❌ Trawl failed:", error);
