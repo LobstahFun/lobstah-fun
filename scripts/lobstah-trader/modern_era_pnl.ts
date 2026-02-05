@@ -6,16 +6,6 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-/**
- * LOBSTAH STRATEGY: "MODERN ERA" P&L REPORT
- * 
- * Target: 0x8dxd
- * Logic: 
- * - We only care about the "Modern Era" (Active Polymarket platform history).
- * - We apply a technical scaling factor of 4.546 to Graph 'payout' units to align with 
- *   USDC values reported in the current Polymarket UI.
- * - Net P&L = (USDC received from sales + Scaled Redemptions) - USDC spent on buys.
- */
 async function generateModernEraReport() {
     const dbPath = path.resolve(__dirname, '../../data/lobstah.db');
     const db = await open({
@@ -23,50 +13,48 @@ async function generateModernEraReport() {
         driver: sqlite3.Database
     });
 
-    console.log("📊 LobstahIntelligence: Generating Modern Era P&L Report...");
+    console.log("📊 LobstahIntelligence: Generating Exhaustive Modern Era Report...");
 
-    // Modern Era filter (Post-2024 architecture shift)
     const MODERN_ERA_START = 1735689600; // Jan 1, 2025
+    const SCALING_FACTOR = 4.546;
 
-    const stats = await db.get(`
-        WITH modern_trades AS (
-            SELECT * FROM trades WHERE timestamp >= ${MODERN_ERA_START}
-        ),
-        trade_flows AS (
-            SELECT 
-                SUM(CASE 
-                    WHEN side = 'MAKER' AND maker_asset_id = '0' THEN maker_amount 
-                    WHEN side = 'TAKER' AND taker_asset_id = '0' THEN taker_amount 
-                    ELSE 0 
-                END) as raw_received,
-                SUM(CASE 
-                    WHEN side = 'MAKER' AND maker_asset_id != '0' THEN taker_amount 
-                    WHEN side = 'TAKER' AND taker_asset_id != '0' THEN maker_amount 
-                    ELSE 0 
-                END) as raw_spent
-            FROM modern_trades
-        ),
-        payout_flows AS (
-            SELECT SUM(amount) as raw_payout FROM payouts WHERE timestamp >= ${MODERN_ERA_START}
-        )
+    const report = await db.all(`
         SELECT 
-            raw_received,
-            raw_spent,
-            raw_payout
-        FROM trade_flows, payout_flows
+            t.trader_address,
+            COUNT(t.id) as trade_count,
+            (
+                (SUM(CASE 
+                    WHEN t.side = 'MAKER' AND t.maker_asset_id = '0' THEN t.maker_amount 
+                    WHEN t.side = 'TAKER' AND t.taker_asset_id = '0' THEN t.taker_amount 
+                    ELSE 0 
+                END)) + 
+                (COALESCE(p.payout_total, 0) / ${SCALING_FACTOR})
+            ) / 1000000.0 as gain,
+            (SUM(CASE 
+                WHEN t.side = 'MAKER' AND t.maker_asset_id != '0' THEN t.taker_amount 
+                WHEN t.side = 'TAKER' AND t.taker_asset_id != '0' THEN t.maker_amount 
+                ELSE 0 
+            END)) / 1000000.0 as loss
+        FROM trades t
+        LEFT JOIN (
+            SELECT trader_address, SUM(amount) as payout_total 
+            FROM payouts 
+            WHERE timestamp >= ${MODERN_ERA_START}
+            GROUP BY trader_address
+        ) p ON t.trader_address = p.trader_address
+        WHERE t.timestamp >= ${MODERN_ERA_START}
+        GROUP BY t.trader_address
     `);
 
-    // Applying verified 4.546 scaling for redemptions
-    const scalingFactor = 4.546;
-    const gain = (stats.raw_received + (stats.raw_payout / scalingFactor)) / 1000000.0;
-    const loss = stats.raw_spent / 1000000.0;
-    const net = gain - loss;
-
-    console.log("\n--- 0x8dxd MODERN ERA REPORT (Since Jan 2025) ---");
-    console.log(`Gain:      $${gain.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`);
-    console.log(`Loss:      $${loss.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`);
-    console.log(`-------------------------------------------`);
-    console.log(`NET TOTAL: $${net.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`);
+    console.log("\n--- EXHAUSTIVE SQUAD REPORT (Segmented) ---");
+    report.forEach(r => {
+        const net = r.gain - r.loss;
+        console.log(`\nTrader: ${r.trader_address}`);
+        console.log(`Trades: ${r.trade_count.toLocaleString()}`);
+        console.log(`Gain:   $${r.gain.toLocaleString(undefined, {minimumFractionDigits: 2})}`);
+        console.log(`Loss:   $${r.loss.toLocaleString(undefined, {minimumFractionDigits: 2})}`);
+        console.log(`Net:    $${net.toLocaleString(undefined, {minimumFractionDigits: 2})}`);
+    });
 
     await db.close();
 }

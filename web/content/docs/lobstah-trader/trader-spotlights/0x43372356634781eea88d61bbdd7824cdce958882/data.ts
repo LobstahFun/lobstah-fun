@@ -5,86 +5,96 @@
 
 export const traderDashboardData = {
     "address": "0x43372356634781eea88d61bbdd7824cdce958882",
-    "lastUpdated": "2026-02-05T17:07:03.424Z",
+    "lastUpdated": "2026-02-05T17:33:41.686Z",
     "stats": {
-        "totalTrades": 2000,
+        "totalTrades": 20000,
         "activePositions": 10,
-        "totalActivePnL": 1394341.767584841
+        "totalActivePnL": 13040289.604409125
     },
     "summary": {
-        "totalGain": 2031382.576561841,
-        "totalLoss": 637040.808977,
-        "netPnl": 1394341.767584841,
-        "numTrades": 2000
+        "totalGain": 15245243.815317124,
+        "totalLoss": 2204954.210908,
+        "netPnl": 13040289.604409125,
+        "numTrades": 20000
     },
     "positions": [
         {
+            "title": "LoL: JD Gaming vs Weibo Gaming (BO3) - LPL Group Ascend",
+            "conditionId": "0x925d165d0e799b100fbda20c9417e668901c14458405fb43a1ea8114f40ac3be",
+            "slug": "lol-jd-gaming-vs-weibo-gaming-bo3---lpl-group-ascend",
+            "size": 837,
+            "avgPrice": 0,
+            "percentPnl": 0
+        },
+        {
+            "title": "LoL: Hanwha Life Esports vs Gen.G (BO5) - LCK Cup Group Stage",
+            "conditionId": "0xfde4cc327beefd2d7bef3bbbe2f4873be8481de00205b71143010d5295c36960",
+            "slug": "lol-hanwha-life-esports-vs-geng-bo5---lck-cup-group-stage",
+            "size": 701,
+            "avgPrice": 0,
+            "percentPnl": 0
+        },
+        {
+            "title": "LoL: T1 vs Dplus KIA (BO5) - LCK Cup Group Stage",
+            "conditionId": "0xe1c55a41c389051295edbf61184a1ac47d5903f85fd8c3ac5ff92b819e7758d9",
+            "slug": "lol-t1-vs-dplus-kia-bo5---lck-cup-group-stage",
+            "size": 416,
+            "avgPrice": 0,
+            "percentPnl": 0
+        },
+        {
             "title": "LoL: Weibo Gaming vs Anyone's Legend (BO3) - LPL Group Ascend",
+            "conditionId": "0xea28942c2b2a3a84e8bf3714df5df49e080f62aaa9c3e998bd90fc8ecdb4dc27",
             "slug": "lol-weibo-gaming-vs-anyones-legend-bo3---lpl-group-ascend",
             "size": 315,
             "avgPrice": 0,
             "percentPnl": 0
         },
         {
-            "title": "Magic vs. Thunder",
-            "slug": "magic-vs-thunder",
-            "size": 115,
+            "title": "LoL: Bilibili Gaming vs JD Gaming (BO3) - LPL Group Ascend",
+            "conditionId": "0x001c353c244069dd4cec7256cffa9fc72b8b2a2bd81e11f314915952383b797c",
+            "slug": "lol-bilibili-gaming-vs-jd-gaming-bo3---lpl-group-ascend",
+            "size": 233,
             "avgPrice": 0,
             "percentPnl": 0
         },
         {
-            "title": "76ers vs. Clippers",
-            "slug": "76ers-vs-clippers",
-            "size": 111,
+            "title": "LoL: Dplus KIA vs Nongshim Red Force (BO3) - LCK Cup Group Stage",
+            "conditionId": "0x9f831543cff7e4dafe5c80650714dadf348b8881ad041b793ffe77b05212648d",
+            "slug": "lol-dplus-kia-vs-nongshim-red-force-bo3---lck-cup-group-stage",
+            "size": 210,
+            "avgPrice": 0,
+            "percentPnl": 0
+        },
+        {
+            "title": "LoL: DRX vs T1 (BO3)",
+            "conditionId": "0x9732ef9ed8d8a03136aceabccfc5211829b7a185a8dcebcd33a850901fa68031",
+            "slug": "lol-drx-vs-t1-bo3",
+            "size": 205,
+            "avgPrice": 0,
+            "percentPnl": 0
+        },
+        {
+            "title": "US government shutdown Saturday?",
+            "conditionId": "0x43ec78527bd98a0588dd9455685b2cc82f5743140cb3a154603dc03c02b57de5",
+            "slug": "us-government-shutdown-saturday",
+            "size": 197,
+            "avgPrice": 0,
+            "percentPnl": 0
+        },
+        {
+            "title": "LoL: OKSavingsBank BRION vs DRX (BO5) - LCK Cup Group Stage",
+            "conditionId": "0x1e11532a601a1edf099ae87517b6655ad623850ab541ce4be048e12b7a5531bd",
+            "slug": "lol-oksavingsbank-brion-vs-drx-bo5---lck-cup-group-stage",
+            "size": 192,
             "avgPrice": 0,
             "percentPnl": 0
         },
         {
             "title": "LoL: OKSavingsBank BRION vs BNK FEARX (BO3)",
+            "conditionId": "0x4aff6ed6a29834c5c69828afb5985c2563d76903d0b72389437b6c66c1f5346e",
             "slug": "lol-oksavingsbank-brion-vs-bnk-fearx-bo3",
-            "size": 76,
-            "avgPrice": 0,
-            "percentPnl": 0
-        },
-        {
-            "title": "LoL: Invictus Gaming vs JD Gaming (BO3) - LPL Group Ascend",
-            "slug": "lol-invictus-gaming-vs-jd-gaming-bo3---lpl-group-ascend",
-            "size": 67,
-            "avgPrice": 0,
-            "percentPnl": 0
-        },
-        {
-            "title": "Creighton Bluejays vs. Georgetown Hoyas",
-            "slug": "creighton-bluejays-vs-georgetown-hoyas",
-            "size": 59,
-            "avgPrice": 0,
-            "percentPnl": 0
-        },
-        {
-            "title": "U.S. anti-cartel ground operation in Mexico by January 31?",
-            "slug": "us-anti-cartel-ground-operation-in-mexico-by-january-31",
-            "size": 56,
-            "avgPrice": 0,
-            "percentPnl": 0
-        },
-        {
-            "title": "LoL: JD Gaming vs Top Esports (BO3) - LPL Group Ascend",
-            "slug": "lol-jd-gaming-vs-top-esports-bo3---lpl-group-ascend",
-            "size": 53,
-            "avgPrice": 0,
-            "percentPnl": 0
-        },
-        {
-            "title": "Bulls vs. Bucks",
-            "slug": "bulls-vs-bucks",
-            "size": 47,
-            "avgPrice": 0,
-            "percentPnl": 0
-        },
-        {
-            "title": "North Texas Mean Green vs. Rice Owls",
-            "slug": "north-texas-mean-green-vs-rice-owls",
-            "size": 45,
+            "size": 147,
             "avgPrice": 0,
             "percentPnl": 0
         }
@@ -92,54 +102,54 @@ export const traderDashboardData = {
     "trades": [],
     "topMarkets": [
         {
+            "question": "LoL: JD Gaming vs Weibo Gaming (BO3) - LPL Group Ascend",
+            "trades": 837,
+            "pnl": 7186.6212080000005
+        },
+        {
+            "question": "LoL: Hanwha Life Esports vs Gen.G (BO5) - LCK Cup Group Stage",
+            "trades": 701,
+            "pnl": 119125.51903399998
+        },
+        {
+            "question": "LoL: T1 vs Dplus KIA (BO5) - LCK Cup Group Stage",
+            "trades": 416,
+            "pnl": 138976.803284
+        },
+        {
             "question": "LoL: Weibo Gaming vs Anyone's Legend (BO3) - LPL Group Ascend",
             "trades": 315,
             "pnl": 10368.284280000002
         },
         {
-            "question": "Magic vs. Thunder",
-            "trades": 115,
-            "pnl": 46687.85541
+            "question": "LoL: Bilibili Gaming vs JD Gaming (BO3) - LPL Group Ascend",
+            "trades": 233,
+            "pnl": -91.27326099999993
         },
         {
-            "question": "76ers vs. Clippers",
-            "trades": 111,
-            "pnl": 16970.458307
+            "question": "LoL: Dplus KIA vs Nongshim Red Force (BO3) - LCK Cup Group Stage",
+            "trades": 210,
+            "pnl": 71838.13834199999
+        },
+        {
+            "question": "LoL: DRX vs T1 (BO3)",
+            "trades": 205,
+            "pnl": 74639.823366
+        },
+        {
+            "question": "US government shutdown Saturday?",
+            "trades": 197,
+            "pnl": 677464.327299
+        },
+        {
+            "question": "LoL: OKSavingsBank BRION vs DRX (BO5) - LCK Cup Group Stage",
+            "trades": 192,
+            "pnl": -1328.876559000004
         },
         {
             "question": "LoL: OKSavingsBank BRION vs BNK FEARX (BO3)",
-            "trades": 76,
-            "pnl": -12750.27392
-        },
-        {
-            "question": "LoL: Invictus Gaming vs JD Gaming (BO3) - LPL Group Ascend",
-            "trades": 67,
-            "pnl": 6514.462904000001
-        },
-        {
-            "question": "Creighton Bluejays vs. Georgetown Hoyas",
-            "trades": 59,
-            "pnl": 6202.028786999999
-        },
-        {
-            "question": "U.S. anti-cartel ground operation in Mexico by January 31?",
-            "trades": 56,
-            "pnl": 340710.357382
-        },
-        {
-            "question": "LoL: JD Gaming vs Top Esports (BO3) - LPL Group Ascend",
-            "trades": 53,
-            "pnl": -58.475582999999915
-        },
-        {
-            "question": "Bulls vs. Bucks",
-            "trades": 47,
-            "pnl": 23549.63679
-        },
-        {
-            "question": "North Texas Mean Green vs. Rice Owls",
-            "trades": 45,
-            "pnl": 8499.572585
+            "trades": 147,
+            "pnl": 7238.690286999999
         }
     ]
 };

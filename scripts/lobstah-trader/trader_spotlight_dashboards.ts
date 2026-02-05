@@ -7,7 +7,6 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Target traders to generate dashboards for
 const TARGET_TRADERS = [
     "0x63ce342161250d705dc0b16df89036c8e5f9ba9a",
     "0x43372356634781eea88d61bbdd7824cdce958882"
@@ -28,36 +27,35 @@ async function generateDashboards() {
         const addr = address.toLowerCase();
         console.log(`Processing ${addr}...`);
 
-        // 1. Fetch Aggregated Stats
         const stats = await db.get(`
-            WITH trade_flows AS (
-                SELECT 
-                    SUM(CASE 
-                        WHEN side = 'MAKER' AND maker_asset_id = '0' THEN maker_amount 
-                        WHEN side = 'TAKER' AND taker_asset_id = '0' THEN taker_amount 
-                        ELSE 0 
-                    END) as received,
-                    SUM(CASE 
-                        WHEN side = 'MAKER' AND maker_asset_id != '0' THEN taker_amount 
-                        WHEN side = 'TAKER' AND taker_asset_id != '0' THEN maker_amount 
-                        ELSE 0 
-                    END) as spent
-                FROM trades WHERE trader_address = ?
-            ),
-            payout_flows AS (
-                SELECT SUM(amount) as payout FROM payouts
-            )
             SELECT 
-                (received + (payout / ?)) / 1000000.0 as total_gain,
-                spent / 1000000.0 as total_loss,
-                (SELECT COUNT(*) FROM trades WHERE trader_address = ?) as trade_count
-            FROM trade_flows, payout_flows
-        `, [addr, SCALING_FACTOR, addr]);
+                COUNT(t.id) as trade_count,
+                (
+                    (SUM(CASE 
+                        WHEN t.side = 'MAKER' AND t.maker_asset_id = '0' THEN t.maker_amount 
+                        WHEN t.side = 'TAKER' AND t.taker_asset_id = '0' THEN t.taker_amount 
+                        ELSE 0 
+                    END)) + 
+                    (COALESCE(p.payout_total, 0) / ${SCALING_FACTOR})
+                ) / 1000000.0 as gain,
+                (SUM(CASE 
+                    WHEN t.side = 'MAKER' AND t.maker_asset_id != '0' THEN t.taker_amount 
+                    WHEN t.side = 'TAKER' AND t.taker_asset_id != '0' THEN t.maker_amount 
+                    ELSE 0 
+                END)) / 1000000.0 as loss
+            FROM trades t
+            LEFT JOIN (
+                SELECT trader_address, SUM(amount) as payout_total 
+                FROM payouts 
+                GROUP BY trader_address
+            ) p ON t.trader_address = p.trader_address
+            WHERE t.trader_address = ?
+        `, [addr]);
 
-        // 2. Fetch Top Markets
         const topMarkets = await db.all(`
             SELECT 
                 m.question,
+                m.condition_id,
                 COUNT(t.id) as count,
                 SUM(CASE 
                     WHEN side = 'MAKER' AND maker_asset_id = '0' THEN maker_amount 
@@ -77,19 +75,18 @@ async function generateDashboards() {
             LIMIT 10
         `, [addr]);
 
-        // 3. Prepare the Output Data
         const dashboardData = {
             address: addr,
             lastUpdated: new Date().toISOString(),
             stats: {
                 totalTrades: stats.trade_count,
-                activePositions: topMarkets.length, // Fallback logic
-                totalActivePnL: stats.total_gain - stats.total_loss
+                activePositions: topMarkets.length,
+                totalActivePnL: stats.gain - stats.loss
             },
             summary: {
-                totalGain: stats.total_gain,
-                totalLoss: stats.total_loss,
-                netPnl: stats.total_gain - stats.total_loss,
+                totalGain: stats.gain,
+                totalLoss: stats.loss,
+                netPnl: stats.gain - stats.loss,
                 numTrades: stats.trade_count
             },
             positions: topMarkets.map(m => ({
@@ -100,7 +97,7 @@ async function generateDashboards() {
                 avgPrice: 0,
                 percentPnl: 0
             })),
-            trades: [], // Current warehouse Trades schema differs from expected dashboard Trades
+            trades: [],
             topMarkets: topMarkets.map(m => ({
                 question: m.question,
                 trades: m.count,
@@ -108,7 +105,6 @@ async function generateDashboards() {
             }))
         };
 
-        // 4. Write to the respective directory
         const outputDir = path.resolve(__dirname, `../../web/content/docs/lobstah-trader/trader-spotlights/${addr}`);
         if (!fs.existsSync(outputDir)) {
             fs.mkdirSync(outputDir, { recursive: true });

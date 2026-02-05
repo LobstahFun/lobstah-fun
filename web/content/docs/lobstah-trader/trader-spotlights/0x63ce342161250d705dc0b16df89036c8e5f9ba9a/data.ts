@@ -5,21 +5,22 @@
 
 export const traderDashboardData = {
     "address": "0x63ce342161250d705dc0b16df89036c8e5f9ba9a",
-    "lastUpdated": "2026-02-05T17:07:03.390Z",
+    "lastUpdated": "2026-02-05T17:33:41.614Z",
     "stats": {
         "totalTrades": 35527,
         "activePositions": 10,
-        "totalActivePnL": 1138118.202853841
+        "totalActivePnL": 965655.5055795342
     },
     "summary": {
-        "totalGain": 1542958.369046841,
+        "totalGain": 1370495.6717725343,
         "totalLoss": 404840.166193,
-        "netPnl": 1138118.202853841,
+        "netPnl": 965655.5055795342,
         "numTrades": 35527
     },
     "positions": [
         {
             "title": "Bitcoin Up or Down - February 5, 9:30AM-9:45AM ET",
+            "conditionId": "0x607f44b51e682170c24852387f8fe3fa845c22844011167d0936f8a13a523484",
             "slug": "bitcoin-up-or-down---february-5-930am-945am-et",
             "size": 2854,
             "avgPrice": 0,
@@ -27,6 +28,7 @@ export const traderDashboardData = {
         },
         {
             "title": "Bitcoin Up or Down - February 5, 10:15AM-10:30AM ET",
+            "conditionId": "0xc7fbc0c7140e5c977428fb1bb073e63d584299427f774333dca1bce03639b613",
             "slug": "bitcoin-up-or-down---february-5-1015am-1030am-et",
             "size": 2312,
             "avgPrice": 0,
@@ -34,6 +36,7 @@ export const traderDashboardData = {
         },
         {
             "title": "Ethereum Up or Down - February 5, 9:30AM-9:45AM ET",
+            "conditionId": "0xdc5c4fc070c0e9f71563dd61c5d6adf77af9b4d85e4ef678f9a6ad6367140891",
             "slug": "ethereum-up-or-down---february-5-930am-945am-et",
             "size": 1940,
             "avgPrice": 0,
@@ -41,6 +44,7 @@ export const traderDashboardData = {
         },
         {
             "title": "Bitcoin Up or Down - February 5, 7:45AM-8:00AM ET",
+            "conditionId": "0xde8b80688e4c13fd6591eb6ee2bd84927c3a5075d733c2b710bfbb1ee4a6e117",
             "slug": "bitcoin-up-or-down---february-5-745am-800am-et",
             "size": 1573,
             "avgPrice": 0,
@@ -48,6 +52,7 @@ export const traderDashboardData = {
         },
         {
             "title": "Bitcoin Up or Down - February 5, 7:30AM-7:45AM ET",
+            "conditionId": "0xc2a4f156f34ed8dc3cc5f87f19f74788ee6f86f8697093852a777f2bd839180b",
             "slug": "bitcoin-up-or-down---february-5-730am-745am-et",
             "size": 1551,
             "avgPrice": 0,
@@ -55,6 +60,7 @@ export const traderDashboardData = {
         },
         {
             "title": "Bitcoin Up or Down - February 5, 8:30AM-8:45AM ET",
+            "conditionId": "0x89c00e9d0c2684f6e1a65fda3956bc530f6bd0aa018af0b7e2d89e30c94bb477",
             "slug": "bitcoin-up-or-down---february-5-830am-845am-et",
             "size": 1380,
             "avgPrice": 0,
@@ -62,6 +68,7 @@ export const traderDashboardData = {
         },
         {
             "title": "Bitcoin Up or Down - February 5, 8:15AM-8:30AM ET",
+            "conditionId": "0x17cf2b9b66e33fba37a919e3b8ba22ea845fed4325a69ead2d6bfca81d7adda7",
             "slug": "bitcoin-up-or-down---february-5-815am-830am-et",
             "size": 1004,
             "avgPrice": 0,
@@ -69,6 +76,7 @@ export const traderDashboardData = {
         },
         {
             "title": "Bitcoin Up or Down - February 5, 10:45AM-11:00AM ET",
+            "conditionId": "0x737ec014d7b533d79440c866df695b4930d1ad416887c1f57af4fd82d7fce3d1",
             "slug": "bitcoin-up-or-down---february-5-1045am-1100am-et",
             "size": 908,
             "avgPrice": 0,
@@ -76,6 +84,7 @@ export const traderDashboardData = {
         },
         {
             "title": "Ethereum Up or Down - February 5, 8:30AM-8:45AM ET",
+            "conditionId": "0xcc1c538b3cb0aa8e25a1768506ec679256414c64b8062b7334b88980609f3f72",
             "slug": "ethereum-up-or-down---february-5-830am-845am-et",
             "size": 905,
             "avgPrice": 0,
@@ -83,6 +92,7 @@ export const traderDashboardData = {
         },
         {
             "title": "Bitcoin Up or Down - February 5, 9:00AM-9:15AM ET",
+            "conditionId": "0xde05077202b98caee67832d86e26b3a900fd52f39a19c80b1022b35a9144b0c7",
             "slug": "bitcoin-up-or-down---february-5-900am-915am-et",
             "size": 901,
             "avgPrice": 0,
