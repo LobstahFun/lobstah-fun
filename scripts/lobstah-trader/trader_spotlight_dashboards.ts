@@ -9,7 +9,8 @@ const __dirname = path.dirname(__filename);
 
 // Target traders to generate dashboards for
 const TARGET_TRADERS = [
-    "0x63ce342161250d705dc0b16df89036c8e5f9ba9a"
+    "0x63ce342161250d705dc0b16df89036c8e5f9ba9a",
+    "0x43372356634781eea88d61bbdd7824cdce958882"
 ];
 
 const SCALING_FACTOR = 4.546;

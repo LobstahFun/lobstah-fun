@@ -61,5 +61,15 @@ async function syncTrader(traderAddress: string) {
     }
 }
 
-const traderAddress = process.argv[2] || "0x63ce342161250d705dc0b16df89036c8e5f9ba9a";
-syncTrader(traderAddress);
+const TARGET_TRADERS = [
+    "0x63ce342161250d705dc0b16df89036c8e5f9ba9a",
+    "0x43372356634781eea88d61bbdd7824cdce958882"
+];
+
+async function syncAll() {
+    for (const address of TARGET_TRADERS) {
+        await syncTrader(address);
+    }
+}
+
+syncAll();
