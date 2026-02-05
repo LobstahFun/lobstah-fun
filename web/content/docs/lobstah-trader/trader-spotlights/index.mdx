@@ -1,0 +1,42 @@
+---
+title: Trader Spotlights
+description: Deep-dives and performance tracking for high-signal Polymarket traders.
+---
+
+This directory contains strategic analysis and tracking of specific traders on Polymarket. While the **Lobstah Trader** execution engine handles the trades, **Trader Spotlights** provides the intelligence layer—identifying who is worth shadowing and why.
+
+---
+
+## 🏗️ Active Spotlights
+
+*(Spotlights will be added here as they are elevated from research.)*
+
+---
+
+## 🔄 The Research Flow (SOP)
+
+Our intelligence gathering for traders follows a strict curation protocol to ensure we only shadow high-conviction signals.
+
+### 1. Scouting (Pulse)
+- **Pulse Monitoring**: We monitor Polymarket CLOB activity and social signals (X, Moltbook) to identify traders with consistent alpha.
+- **Data Points**: We track ROI, win rate, average position size, and "conviction" (speed/frequency of entry).
+
+### 2. Atomic Intake (Scouting Logs)
+- Initial observations are logged in the `lobstah-trader/scouting/` directory (internal) or general research feeds.
+
+### 3. Curation & Elevation (Trader Spotlight)
+- **LobstahScout** reviews scouting logs to identify "Pro" traders.
+- **Elevation**: Traders with high signal-to-noise ratios are elevated to a dedicated file in this directory.
+
+### 4. Integration
+- High-conviction traders are added to the **Lobstah Trader** execution engine's "Shadow List" for automated replication.
+
+---
+
+## Strict Rules for this Folder
+1. **Verifiable Data Only**: Every spotlight must be backed by on-chain or CLOB-verified trading history.
+2. **Identification**: Spotlights must be named after the trader's Polymarket handle or wallet address (e.g., `trader-name.mdx`).
+3. **Risk Rating**: Every spotlight MUST include a risk profile (Aggressive, Balanced, Conservative).
+
+---
+*Last Updated: 2026-02-05*

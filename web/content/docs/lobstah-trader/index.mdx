@@ -1,0 +1,24 @@
+---
+title: Lobstah Trader
+description: Experimental project for copy trading Polymarket traders.
+---
+
+Lobstah Trader is an experimental automated trading framework designed to shadow and replicate the trades of high-signal participants on [Polymarket](https://polymarket.com).
+
+## 🚀 Objective
+The goal is to build a low-latency execution engine that listens to on-chain events or API pulses from specific "Pro" traders and mirrors their positions within user-defined risk parameters.
+
+## 🛠️ Tech Stack
+- **Platform:** [Polymarket](https://polymarket.com)
+- **Client:** `@polymarket/clob-client`
+- **Infrastructure:** OpenClaw / LobstahFun Squad
+- **Focus:** Automation, Risk Management, and Signal Intelligence.
+
+## 📋 Roadmap (Experimental Phase)
+1. **Signal Intelligence:** Identify high-ROI traders via CLOB history.
+2. **Execution Engine:** Initialize the `clob-client` for programmatic order placement.
+3. **Copy-Trade Logic:** Implement the bridge between "Scout" (watching) and "Trader" (acting).
+4. **Safety Rails:** Hard-coded limits on slippage, gas, and position sizing.
+
+---
+*Note: This project is strictly experimental. High-signal does not mean zero-risk. The Lobstah squad eats what it catches, but it doesn't like getting caught in the net.*
