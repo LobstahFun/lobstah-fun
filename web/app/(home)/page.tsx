@@ -30,7 +30,7 @@ export default function HomePage() {
           </Link>
 
           <Link 
-            href="/docs/library/platforms/moltbook.com/OVERVIEW" 
+            href="/docs/project-spotlights/index" 
             className="group relative flex flex-col p-8 border rounded-2xl hover:border-primary transition-all hover:shadow-lg bg-card"
           >
             <div className="absolute top-4 right-4 text-xs font-mono opacity-20 group-hover:opacity-100">02</div>
